@@ -1,0 +1,54 @@
+---
+title: "API_Access"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(keyring)
+library(jsonlite)
+library(RCurl)
+library(httr)
+
+```
+
+# Input credentials
+
+You must provide your API key in each request to identify your organization to StreetLight's servers. Provide your API key using a query parameter named key. The query parameter is the part of the request URL after the question mark. Alternatively, you can pass the key using the HTTP header x-stl-key. The server returns a 401 Unauthorized status code if authentication fails.
+
+Contact your StreetLight Data representative (support@streetlightdata.com) to obtain an API key.
+
+Set key using `r keyring::key_set_with_value(service, username = NULL, password = NULL,
+  keyring = NULL)`, where *service* is "StreetLightAPI", *username* is "Met Council - API" (whichever is preferred) and *password* is the unique API key that the StL representative sent.  You can set a specific keyring if you want to keep separate keys on separate rings.  Note that the key is persistent beyond the close of the R session.
+
+```{r}
+# Credentials
+key <- keyring::key_get("StL API", "Met Council - API")
+# Paths
+echo_msg_url <- paste0("https://insight.streetlightdata.com:/api/v1/debug/echo?key=", key)
+project_req <- paste0("https://insight.streetlightdata.com:/api/v1/projects?key=", key)
+
+```
+
+# Echo a message to confirm connectivity using API key
+
+See ref-debug-echo.md.  Return message should echo back input message:
+
+<script type = "text/json">
+{
+  "message": "hello world",
+  "status": "success"
+}
+</script>
+
+Note that this endpoint is provided solely for debugging connectivity and authentication to the API server. It is not necessary to use it in production to create Projects and get Metrics.
+
+```{r}
+# HTTP request
+echo_msg <- RCurl::postForm(echo_msg_url, .opts = list(postfields = toJSON(list(text = '{"message": "hello world"')),
+                                         httpheader = c('Content-Type' = 'application/json')))
+
+jsonlite::prettify(echo_msg)
+
+```

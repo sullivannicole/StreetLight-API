@@ -1,0 +1,16 @@
+{
+   "insight_login_email" : "nicole.sullivan@metc.state.mn.us",
+   "project_type":"OD_Analysis",
+   "project_name": "MPO_Collar_OD",
+   "data_source_type":"LBS",
+   "travel_type":"Personal",
+   "description":"Sample",
+   "oz_sets": [{"name":"MPO_CTUs_+_Collar_Counties"}],
+   "dz_sets": [{"name":"MPO_CTUs_+_Collar_Counties"}],
+   "data_periods": "5-2018, 6-2018, 7-2018, 8-2018",
+   "day_types":"Average Day|17,Average Weekday|14,Average Weekend Day|67",
+   "day_parts":"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923",
+   "trip_attributes":true,
+   "traveler_attributes":true,
+   "is_ui_enabled":true
+}

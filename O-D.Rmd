@@ -64,7 +64,7 @@ Note that each metric needs to be called separately.
 od_trip_pers <- httr::GET(url = paste0("https://insight.streetlightdata.com:/api/v1/projects/download/uuid/", project_uuid, "/od_trip_pers", "?key=", key),
           config = add_headers('x-stl-key' = key))
 
-od_trip_pers <- as.data.frame(content(od_trip_pers, as = "parsed"))
+od_trip_pers <- as_tibble(content(od_trip_pers, as = "parsed"))
 
 
 ```

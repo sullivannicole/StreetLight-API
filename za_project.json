@@ -1,0 +1,14 @@
+{
+   "insight_login_email":"nicole.sullivan@metc.state.mn.us",
+   "project_type":"Zone_Activity_Analysis",
+   "project_name": "MPO_Collar_ZA",
+   "data_source_type":"GPS",
+   "travel_type":"Personal",
+   "description":"",
+   "oz_sets":[{"name":"MPO_CTUs_+_Collar_Counties"}],
+   "data_periods":"1-2016,2-2016,3-2016,4-2016,5-2016,6-2016,7-2016,8-2016,9-2016,10-2016,11-2016,12-2016",
+   "day_types":"Average Day|17,Average Weekday|14,Average Weekend Day|67",
+   "day_parts":"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923",
+   "trip_attributes":false,
+   "traveler_attributes":false
+}

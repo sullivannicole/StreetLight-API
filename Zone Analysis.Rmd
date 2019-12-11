@@ -1,0 +1,69 @@
+---
+title: "Zone Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(keyring)
+library(jsonlite)
+library(RCurl)
+library(httr)
+
+```
+
+# Background
+
+This notebook runs through an [zone activity analysis](https://support.streetlightdata.com/hc/en-us/articles/360018833951-Zone-Activity-Analysis) in the StreetLight platform.  See the *StreetLight API Set-up.Rmd* notebook for set-up info.
+
+## Input credentials
+
+```{r}
+# Credentials
+key <- keyring::key_get("StL API", "Met Council - API")
+# Paths
+project_req <- paste0("https://insight.streetlightdata.com:/api/v1/projects?key=", key)
+
+```
+
+## Run Zone Analysis Project
+
+```{r}
+create_req <- httr::POST(project_req,
+                         config = add_headers('Content-Type' = 'application/json', 'x-stl-key' = key),
+                         body = upload_file("za_project.json", type = 'json'),
+                         encode = 'json'
+)
+
+request <- jsonlite::prettify(create_req)
+```
+
+## Look at retrievable metrics of request/get uuid
+
+```{r}
+# Look at retrievable metrics of request
+jsonlite::parse_json(request)
+
+metrics <-httr::POST(url ="https://insight.streetlightdata.com:/api/v1/projects/status", 
+         config = add_headers('Content-Type' = 'application/json', 'x-stl-key' = key),
+          body = upload_file("od_status_query.json", type = "json"))
+
+project_uuid <- content(metrics, "parsed")$projects[[1]]$uuid
+
+```
+
+## Export data
+
+Note that each metric needs to be called separately.
+
+```{r}
+# OD Trip-Person Metric
+od_trip_pers <- httr::GET(url = paste0("https://insight.streetlightdata.com:/api/v1/projects/download/uuid/", project_uuid, "/od_trip_pers", "?key=", key),
+          config = add_headers('x-stl-key' = key))
+
+od_trip_pers <- as.data.frame(content(od_trip_pers, as = "parsed"))
+
+
+```
